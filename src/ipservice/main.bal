@@ -1,5 +1,7 @@
 import ballerina/grpc;
 import ballerina/log;
+import skadi/core;
+
 
 public function main() {
     log:printInfo("IP Service");
@@ -12,7 +14,7 @@ service IPService on grpcListener {
     resource function ip(grpc:Caller caller, string name) {
         log:printInfo("Received request from " + name);
 
-        var ip = "getIP()";
+        var ip = core:getIP();
 
         grpc:Headers resHeader = new;
         grpc:Error? err = caller->send(ip, resHeader);

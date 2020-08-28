@@ -3,7 +3,12 @@
 ## Running
 
 ```shell
-ballerina run src/skadi.bal
+ballerina run src/skadi/skadi.bal
+
+OR
+
+make run
+make run-ip
 ```
 
 ---

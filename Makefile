@@ -1,4 +1,10 @@
 PROJECT :="SKADI"
 
 run:
-	ballerina run skadi --b7a.http.accesslog.console=true
+	ballerina build skadi
+	ballerina run target/bin/skadi.jar
+
+
+run-ip:
+	ballerina build ipservice
+	ballerina run target/bin/ipservice.jar

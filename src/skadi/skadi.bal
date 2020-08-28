@@ -1,9 +1,10 @@
 import ballerina/http;
 import ballerina/grpc;
 import ballerina/log;
-// import ipservice_pb;
 
 listener http:Listener httpListener = new http:Listener(9090);
+
+IPServiceClient ipServiceClient = new("http://localhost:9091");
 
 
 @http:ServiceConfig {
@@ -23,7 +24,7 @@ service skadi on httpListener {
     }
 
     resource function ip(http:Caller caller, http:Request request) returns error? {
-        var ip = getIP();
+        var ip = getIP("http");
 
         http:Response response = new;
 
@@ -43,42 +44,11 @@ public function main() {
     @strand { thread: "any" }
     worker w1 {
         log:printInfo("[worker:ip]: running worker ip");
-
-        _ = getIP();
+        
+        var ip = getIP("boot");
+        log:printInfo("worker -> ip " + ip);
     }
 
-    IPServiceClient ipServiceClient = new("http://localhost:9091");
-
-    grpc:Error? result = ipServiceClient->ip("hii", IPServiceListener);
-    if (result is grpc:Error) {
-        log:printError("Error from Connector: " + result.reason() + " - " + <string>result.detail()["message"]);
-    } else {
-        log:printInfo("Connected successfully");
-    }
-
-    while (total == 0) {}
-    log:printInfo("Client got response successfully.");
-}
-
-public function getIP() returns @tainted string {
-    http:Client ipClient = new("https://wtfismyip.com");
-    var resp = ipClient->get("/json");
-
-    string ip = "";
-
-    if(resp is http:Response) {
-        var payload = resp.getJsonPayload();
-
-        log:printInfo("Getting IP:");
-        log:printInfo(<string>payload);
-
-        if(payload is json) {
-            ip = <string>payload.YourFuckingIPAddress;
-        }
-
-    }
-
-    return ip;
 }
 
 service IPServiceListener = service {
@@ -97,3 +67,19 @@ service IPServiceListener = service {
     }
 };
 
+public function getIP(string message) returns string {
+    grpc:Error? result = ipServiceClient->ip(message, IPServiceListener);
+
+    // TODO: Get value from result
+    // log:printInfo(result);
+
+    string ip = "NA";
+
+    if (result is grpc:Error) {
+        log:printError("Error from Connector: " + result.reason() + " - " + <string>result.detail()["message"]);
+    } else {
+        log:printInfo("Connected successfully");
+    }
+
+    return ip;
+}
