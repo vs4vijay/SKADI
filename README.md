@@ -17,6 +17,10 @@ ballerina run src/skadi.bal
 
 ```
 
+ballerina new skadi
+ballerina add skadi
+ballerina add ipservice
+
 curl localhost:9090/skadi/v1/healthz
 
 
