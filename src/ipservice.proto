@@ -1,0 +1,9 @@
+syntax="proto3";
+
+import "google/protobuf/wrappers.proto";
+
+service IPService {
+    rpc ip (google.protobuf.StringValue)
+        returns (google.protobuf.StringValue);
+}
+

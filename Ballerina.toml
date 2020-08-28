@@ -1,5 +1,5 @@
 [project]
-org-name= "viz"
+org-name= "skadi"
 version= "0.1.0"
 
 [dependencies]
