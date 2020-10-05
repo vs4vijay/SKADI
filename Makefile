@@ -2,7 +2,7 @@ PROJECT :="SKADI"
 
 run:
 	ballerina build skadi
-	ballerina run target/bin/skadi.jar
+	ballerina run target/bin/skadi.jar --b7a.http.accesslog.console=true
 
 
 run-ip:

@@ -31,6 +31,9 @@ curl localhost:9090/skadi/v1/healthz
 
 --b7a.http.accesslog.console=true
 
+Enable Observability (Distributed Tracing)
+--b7a.observability.enabled=true
+
 
 WebSub
 
@@ -49,5 +52,12 @@ ballerina init
 ballerina swagger mock https://petstore.swagger.io/v2/swagger.json -m petstore-mock
 
 ballerina swagger client https://petstore.swagger.io/v2/swagger.json -m petstore-client
+
+
+## Auto-generate server and client from *.proto
+ballerina grpc --input ipservice.proto --mode service --output service
+ballerina grpc --input ipservice.proto --mode client --output client
+ballerina grpc --input ipservice.proto
+
 
 ```
